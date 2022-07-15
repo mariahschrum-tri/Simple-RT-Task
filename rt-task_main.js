@@ -19,14 +19,13 @@ var instructions = {
     type: "html-keyboard-response",
     stimulus: "<p>In this experiment, a circle will appear in the center " +
         "of the screen.</p><p>If the circle is <strong>blue</strong>, " +
-        "press the letter F on the keyboard as fast as you can.</p>" +
-        "<p>If the circle is <strong>orange</strong>, press the letter J " +
-        "as fast as you can.</p>" +
+        "press the spcar bar on the keyboard as fast as you can.</p>" +
+        "<p>If the circle is <strong>orange</strong>, do not press any button.</p>" +
         "<div style='width: 700px;'>" +
         "<div style='float: left;'><img src='" + repo_site + "img/blue.png'></img>" + // Change 2: Adding `repo_site` in `instructions`
-        "<p class='small'><strong>Press the F key</strong></p></div>" +
+        "<p class='small'><strong>Press the space bar button</strong></p></div>" +
         "<div class='float: right;'><img src='" + repo_site + "img/orange.png'></img>" + // Change 2: Adding `repo_site` in `instructions`
-        "<p class='small'><strong>Press the J key</strong></p></div>" +
+        "<p class='small'><strong>Do not press any button</strong></p></div>" +
         "</div>" +
         "<p>Press any key to begin.</p>",
     post_trial_gap: 2000
@@ -39,14 +38,14 @@ var test_stimuli = [{
         stimulus: repo_site + "img/blue.png", // Change 3: Adding `repo_site` in `test_stimuli`
         data: {
             test_part: 'test',
-            correct_response: 'f'
+            correct_response: '32'
         }
     },
     {
         stimulus: repo_site + "img/orange.png", // Change 3: Adding `repo_site` in `test_stimuli`
         data: {
             test_part: 'test',
-            correct_response: 'j'
+            correct_response: '-1'
         }
     }
 ];
@@ -66,7 +65,7 @@ var fixation = {
 var test = {
     type: "image-keyboard-response",
     stimulus: jsPsych.timelineVariable('stimulus'),
-    choices: ['f', 'j'],
+    choices: ['32', '-1'],
     data: jsPsych.timelineVariable('data'),
     on_finish: function (data) {
         data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
