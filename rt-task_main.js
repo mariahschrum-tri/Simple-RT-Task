@@ -10,23 +10,17 @@ var timeline = [];
 /* define welcome message trial */
 var welcome_block = {
     type: "html-keyboard-response",
-    stimulus: "Welcome to the experiment. Press any key to begin."
+    stimulus: "<p>Welcome to the experiment. Press any key to begin.</p>",
 };
 timeline.push(welcome_block);
 
 /* define instructions trial */
 var instructions = {
     type: "html-keyboard-response",
-    stimulus: "<p>In this experiment, a circle will appear in the center " +
-        "of the screen.</p><p>If the circle is <strong>blue</strong>, " +
-        "press the spcar bar on the keyboard as fast as you can.</p>" +
-        "<p>If the circle is <strong>orange</strong>, do not press any button.</p>" +
-        "<div style='width: 700px;'>" +
-        "<div style='float: left;'><img src='" + repo_site + "img/blue.png'></img>" + // Change 2: Adding `repo_site` in `instructions`
-        "<p class='small'><strong>Press the space bar button</strong></p></div>" +
-        "<div class='float: right;'><img src='" + repo_site + "img/orange.png'></img>" + // Change 2: Adding `repo_site` in `instructions`
-        "<p class='small'><strong>Do not press any button</strong></p></div>" +
-        "</div>" +
+    stimulus: "<p>In this experiment, a blue circle like the one below will " +
+        "appear in the center of the screen.</p><p>When you see the circle, " +
+        "press the SPACE key as fast as you can.</p>" +
+        "<img src='" + repo_site + "img/blue.png'></img>" +
         "<p>Press any key to begin.</p>",
     post_trial_gap: 2000
 };
@@ -38,14 +32,7 @@ var test_stimuli = [{
         stimulus: repo_site + "img/blue.png", // Change 3: Adding `repo_site` in `test_stimuli`
         data: {
             test_part: 'test',
-            correct_response: 'f'
-        }
-    },
-    {
-        stimulus: repo_site + "img/orange.png", // Change 3: Adding `repo_site` in `test_stimuli`
-        data: {
-            test_part: 'test',
-            correct_response: 'j'
+            correct_response: ' '
         }
     }
 ];
@@ -55,7 +42,7 @@ var fixation = {
     stimulus: '<div style="font-size:60px;">+</div>',
     choices: jsPsych.NO_KEYS,
     trial_duration: function () {
-        return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+        return jsPsych.randomization.sampleWithReplacement([500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3250, 3500], 1)[0];
     },
     data: {
         test_part: 'fixation'
@@ -65,7 +52,7 @@ var fixation = {
 var test = {
     type: "image-keyboard-response",
     stimulus: jsPsych.timelineVariable('stimulus'),
-    choices: ['f', 'j'],
+    choices: [' '],
     data: jsPsych.timelineVariable('data'),
     on_finish: function (data) {
         data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
@@ -75,7 +62,7 @@ var test = {
 var test_procedure = {
     timeline: [fixation, test],
     timeline_variables: test_stimuli,
-    repetitions: 5,
+    repetitions: 25,
     randomize_order: true
 }
 timeline.push(test_procedure);
@@ -95,8 +82,7 @@ var debrief_block = {
         var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
         var rt = Math.round(correct_trials.select('rt').mean());
 
-        return "<p>You responded correctly on " + accuracy + "% of the trials.</p>" +
-            "<p>Your average response time was " + rt + "ms.</p>" +
+        return "<p>Your average response time was " + rt + "ms.</p>" +
             "<p>Press any key to complete the experiment. Thank you!</p>";
 
     }
