@@ -38,7 +38,7 @@ var test_stimuli = [{
         stimulus: repo_site + "img/blue.png", // Change 3: Adding `repo_site` in `test_stimuli`
         data: {
             test_part: 'test',
-            correct_response: '32'
+            correct_response: 32
         }
     },
     {
@@ -65,7 +65,7 @@ var fixation = {
 var test = {
     type: "image-keyboard-response",
     stimulus: jsPsych.timelineVariable('stimulus'),
-    choices: ['32', 'j'],
+    choices: [32, 'j'],
     data: jsPsych.timelineVariable('data'),
     on_finish: function (data) {
         data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
