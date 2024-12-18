@@ -89,7 +89,6 @@
     timeline.push(test_procedure);
 
     /* define debrief */
-
     var debrief_block = {
       type: "html-keyboard-response",
       stimulus: function() {
@@ -100,16 +99,10 @@
 
         return "<p>You responded correctly on "+accuracy+"% of the trials.</p>"+
         "<p>Your average response time was "+rt+"ms.</p>"+
-        "<p>Press any key to complete the experiment. Then close this window, return to the survey and hit the next button. Thank you!</p>";
-      }
-    };
-    timeline.push(debrief_block);
-
-    /* start the experiment */
-    jsPsych.init({
-      timeline: timeline,
-      on_finish: function() {
-        // Collect data
+        "<p>Thank you for completing the task. You can now close the window and return to the survey.</p>";
+      },
+      on_start: function() {
+        // Trigger CSV download when this trial starts
         var trials = jsPsych.data.get().filter({test_part: 'test'});
         var correct_trials = trials.filter({correct: true});
         var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
@@ -127,6 +120,12 @@
         link.download = filename;
         link.click();
       }
+    };
+    timeline.push(debrief_block);
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline
     });
   </script>
 </html>
