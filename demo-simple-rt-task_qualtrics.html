@@ -113,7 +113,7 @@
         output += participantID + "," + accuracy + "," + rt + "," + correct_trials.count();
 
         // Download the file
-        var filename = "participant_" + participantID + "_reactiontime.csv";
+        var filename = participantID + "_reactiontime.csv";
         var blob = new Blob([output], { type: "text/csv" });
         var link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
